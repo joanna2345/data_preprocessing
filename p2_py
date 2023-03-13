@@ -1,0 +1,510 @@
+#stworzenie sztucznego zestawu danych o takiej samej wielkości, jak zestaw data_EUR_USD (p1.py)
+import pandas as pd
+import random
+#Stworzenie list
+lista_1=[]
+lista_2=[]
+lista_3=[]
+lista_4=[]
+lista_5=[]
+lista_6=[]
+lista_7=[]
+lista_8=[]
+lista_9=[]
+lista_10=[]
+lista_11=[]
+lista_12=[]
+
+#Wypelnienie list
+for i in range(17217):
+    lista_1.append(random.random())
+    lista_2.append(random.random())
+    lista_3.append(random.random())
+    lista_4.append(random.random())
+    lista_5.append(random.random())
+    lista_6.append(random.random())
+    lista_7.append(random.random())
+    lista_8.append(random.random())
+    lista_9.append(random.random())
+    lista_10.append(random.random())
+    lista_11.append(random.random())
+    lista_12.append(random.choice(['BUY', 'SELL', 'WAIT']))
+
+# print('stara lista',lista_1) #SPR1
+
+#--------Lista1--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k1 = max(lista_1)
+c=max_value_k1
+min_value_k1 = min(lista_1)
+d=min_value_k1
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_1.pop(0) 
+lista_1.insert(0, (random.choice(lista_1)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k1 = lista_1[0]
+index_w1k1 = lista_1.index(w1k1)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_1)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k1:
+        a=1 #robocza zmienna, nic nie robi
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_1[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k1 = lista_1[i-1]+((lista_1[i-1])*0.01) #nowe max value
+        nowa_min_value_k1 = lista_1[i-1]*0.01 #nowe min value
+        if lista_1[i] > nowa_max_value_k1: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k1 = lista_1[i]
+
+        elif lista_1[i] < nowa_min_value_k1: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k1 = lista_1[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+            
+#sprawdzenie czy działa dla atrybutu 1
+# print('stara max: ', c, 'stara min: ', d)
+# print('nowa max: ', nowa_max_value_k1, 'nowa min: ',nowa_min_value_k1)
+# print('nowa lista',lista_1)
+
+#--------Lista2--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k2 = max(lista_2)
+c=max_value_k2
+min_value_k2 = min(lista_2)
+d=min_value_k2
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_2.pop(0) 
+lista_2.insert(0, (random.choice(lista_2)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k2 = lista_2[0]
+index_w1k2 = lista_2.index(w1k2)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_2)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k2:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_2[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k2 = lista_2[i-1]+((lista_2[i-1])*0.01) #nowe max value
+        nowa_min_value_k2 = lista_2[i-1]*0.01 #nowe min value
+        if lista_2[i] > nowa_max_value_k2: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k2 = lista_2[i]
+
+        elif lista_2[i] < nowa_min_value_k2: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k2 = lista_2[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista3--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k3 = max(lista_3)
+c=max_value_k3
+min_value_k3 = min(lista_3)
+d=min_value_k3
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_3.pop(0) 
+lista_3.insert(0, (random.choice(lista_3)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k3 = lista_3[0]
+index_w1k3 = lista_3.index(w1k3)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_3)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k3:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_3[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k3 = lista_3[i-1]+((lista_3[i-1])*0.01) #nowe max value
+        nowa_min_value_k3 = lista_3[i-1]*0.01 #nowe min value
+        if lista_3[i] > nowa_max_value_k3: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k3 = lista_3[i]
+
+        elif lista_3[i] < nowa_min_value_k3: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k3 = lista_3[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista4--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k4 = max(lista_4)
+c=max_value_k4
+min_value_k4 = min(lista_4)
+d=min_value_k4
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_4.pop(0) 
+lista_4.insert(0, (random.choice(lista_4)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k4 = lista_4[0]
+index_w1k4 = lista_4.index(w1k4)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_4)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k4:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_4[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k4 = lista_4[i-1]+((lista_4[i-1])*0.01) #nowe max value
+        nowa_min_value_k4 = lista_4[i-1]*0.01 #nowe min value
+        if lista_4[i] > nowa_max_value_k4: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k4 = lista_4[i]
+
+        elif lista_4[i] < nowa_min_value_k4: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k4 = lista_4[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista5--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k5 = max(lista_5)
+c=max_value_k5
+min_value_k5 = min(lista_5)
+d=min_value_k5
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_5.pop(0) 
+lista_5.insert(0, (random.choice(lista_5)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k5 = lista_5[0]
+index_w1k5 = lista_5.index(w1k5)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_5)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k5:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_5[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k5 = lista_5[i-1]+((lista_5[i-1])*0.01) #nowe max value
+        nowa_min_value_k5 = lista_5[i-1]*0.01 #nowe min value
+        if lista_5[i] > nowa_max_value_k5: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k5 = lista_5[i]
+
+        elif lista_5[i] < nowa_min_value_k5: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k5 = lista_5[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista6--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k6 = max(lista_6)
+c=max_value_k6
+min_value_k6 = min(lista_6)
+d=min_value_k6
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_6.pop(0) 
+lista_6.insert(0, (random.choice(lista_6)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k6 = lista_6[0]
+index_w1k6 = lista_6.index(w1k6)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_6)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k6:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_6[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k6 = lista_6[i-1]+((lista_6[i-1])*0.01) #nowe max value
+        nowa_min_value_k6 = lista_6[i-1]*0.01 #nowe min value
+        if lista_6[i] > nowa_max_value_k6: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k6 = lista_6[i]
+
+        elif lista_6[i] < nowa_min_value_k6: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k6 = lista_6[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista7--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k7 = max(lista_7)
+c=max_value_k7
+min_value_k7 = min(lista_7)
+d=min_value_k7
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_7.pop(0) 
+lista_7.insert(0, (random.choice(lista_7)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k7 = lista_7[0]
+index_w1k7 = lista_7.index(w1k7)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_7)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k7:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_7[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k7 = lista_7[i-1]+((lista_7[i-1])*0.01) #nowe max value
+        nowa_min_value_k7 = lista_7[i-1]*0.01 #nowe min value
+        if lista_7[i] > nowa_max_value_k7: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k7 = lista_7[i]
+
+        elif lista_7[i] < nowa_min_value_k7: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k7 = lista_7[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista8--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k8 = max(lista_8)
+c=max_value_k8
+min_value_k8 = min(lista_8)
+d=min_value_k8
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_8.pop(0) 
+lista_8.insert(0, (random.choice(lista_8)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k8 = lista_8[0]
+index_w1k8 = lista_8.index(w1k8)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_8)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k8:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_8[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k8 = lista_8[i-1]+((lista_8[i-1])*0.01) #nowe max value
+        nowa_min_value_k8 = lista_8[i-1]*0.01 #nowe min value
+        if lista_8[i] > nowa_max_value_k8: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k8 = lista_8[i]
+
+        elif lista_8[i] < nowa_min_value_k8: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k8 = lista_8[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista9--------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k9 = max(lista_9)
+c=max_value_k9
+min_value_k9 = min(lista_9)
+d=min_value_k9
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_9.pop(0) 
+lista_9.insert(0, (random.choice(lista_9)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k9 = lista_9[0]
+index_w1k9 = lista_9.index(w1k9)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_9)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k9:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_9[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k9 = lista_9[i-1]+((lista_9[i-1])*0.01) #nowe max value
+        nowa_min_value_k9 = lista_9[i-1]*0.01 #nowe min value
+        if lista_9[i] > nowa_max_value_k9: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k9 = lista_9[i]
+
+        elif lista_9[i] < nowa_min_value_k9: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k9 = lista_9[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista10-------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k10 = max(lista_10)
+c=max_value_k10
+min_value_k10 = min(lista_10)
+d=min_value_k10
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_10.pop(0) 
+lista_10.insert(0, (random.choice(lista_10)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k10 = lista_10[0]
+index_w1k10 = lista_10.index(w1k10)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_10)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k10:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_10[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k10 = lista_10[i-1]+((lista_10[i-1])*0.01) #nowe max value
+        nowa_min_value_k10 = lista_10[i-1]*0.01 #nowe min value
+        if lista_10[i] > nowa_max_value_k10: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k10 = lista_10[i]
+
+        elif lista_10[i] < nowa_min_value_k10: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k10 = lista_10[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+#--------Lista11-------
+#Tworzę min i max z kolumny 1 i do wiersza pierwszego w kolumnie pierwszej wpisuje randomowa wartosc z przedzialu min i max listy (starej)
+max_value_k11 = max(lista_11)
+c=max_value_k11
+min_value_k11 = min(lista_11)
+d=min_value_k11
+#1- w pierwszym wierszu znajdują się elementy losowe z zakresu ⟨min, max⟩, 
+#gdzie min jest wartością minimalną i-tego atrybutu, a wartość max jest wartością 
+#maksymalną i-tego atrybutu
+lista_11.pop(0) 
+lista_11.insert(0, (random.choice(lista_11)))
+
+#Tworzę zmienną zawierającą wartość znajdującą się na indeksie 1 w liście
+w1k11 = lista_11[0]
+index_w1k11 = lista_11.index(w1k11)
+
+#Kilka warunków
+#Pętla do przekształcania wartości nowego zakresu (przechodzę przez wszystkie wartości listy1)
+for i in range (len(lista_11)):
+    #if=>dla pierwszego wiersza nic nie robię (zostawiam losową liczbę ze starego zakresu min max (z pkt1 projektu))
+    if i == index_w1k11:
+        a=1
+        # print('to wiersz pierwszy, nic nie zmieniam', lista_11[0]) #SPR1
+    #else=>dla wszystkich innych wierszy niz pierwszy wykonuję poniższy kod
+    else:
+        #sprawdzam czy wartosc każdego kolejnego indeksu w liście1 jest mniejsza od min_nowego oraz czy jest wieksza od max_nowego
+        nowa_max_value_k11 = lista_11[i-1]+((lista_11[i-1])*0.01) #nowe max value
+        nowa_min_value_k11 = lista_11[i-1]*0.01 #nowe min value
+        if lista_11[i] > nowa_max_value_k11: #jeśli wartość z listy jest większa niż nasze nowe maksimum przedziału, to zakres dla kolejnych wierszy zmienia wartość maksymalną na obecną wartość z listy
+            nowa_max_value_k11 = lista_11[i]
+
+        elif lista_11[i] < nowa_min_value_k11: #jeśli wartość z listy jest mniejsza niż nasze nowe minimum przedziału, to zakres dla kolejnych wierszy zmienia wartość minimalną na obecną wartość z listy
+            nowa_min_value_k11 = lista_11[i]
+            
+        else: #jeśli wartość mieści się w nowym przedziale min max, zostawiam wartosc bez zmian
+            a=1 #robocza wartość nic nie robiąca
+
+#stworzenie dataframe na bazie wartosci z listy
+dane = pd.DataFrame(lista_1)
+dane.set_axis(['Kolumna1'], axis=1, inplace=True)
+dane['Kolumna2'] = lista_2
+dane['Kolumna3'] = lista_3 
+dane['Kolumna4'] = lista_4
+dane['Kolumna5'] = lista_5
+dane['Kolumna6'] = lista_6
+dane['Kolumna7'] = lista_7
+dane['Kolumna8'] = lista_8
+dane['Kolumna9'] = lista_9
+dane['Kolumna10'] = lista_10
+dane['Kolumna11'] = lista_11
+dane['Kolumna12'] = lista_12
+
+#Wyznaczenie korelacji pomiędzy atrybutami starego zestawu danych i nowego
+
+#Stworzenie serii z list z obu dataframe'ów
+seria_z_lista_1 = pd.Series(lista_1)
+seria_z_lista_2 = pd.Series(lista_2)
+seria_z_lista_3 = pd.Series(lista_3)
+seria_z_lista_4 = pd.Series(lista_4)
+seria_z_lista_5 = pd.Series(lista_5)
+seria_z_lista_6 = pd.Series(lista_6)
+seria_z_lista_7 = pd.Series(lista_7)
+seria_z_lista_8 = pd.Series(lista_8)
+seria_z_lista_9 = pd.Series(lista_9)
+seria_z_lista_10 = pd.Series(lista_10)
+seria_z_lista_11 = pd.Series(lista_11)
+
+dane_wlasciwe = pd.DataFrame((pd.read_csv('C:\\Users\\joann\\Downloads\\data_preprocessing_file\\data_preprocessing\\data_EUR_USD.csv')).head(17217))
+#Close,SMA14,SMA50,SMA14IND,SMA50IND,Bulls,CCI,DM,OSMA,RSI,Stoch,Decision
+lista_z_dataframe_close = dane_wlasciwe['Close'].tolist()
+seria_z_listy_close = pd.Series(lista_z_dataframe_close)
+lista_z_dataframe_SMA14 = (dane_wlasciwe['SMA14']).tolist()
+seria_z_listy_SMA14 = pd.Series(lista_z_dataframe_SMA14)
+lista_z_dataframe_SMA50 = (dane_wlasciwe['SMA50']).tolist()
+seria_z_listy_SMA50 = pd.Series(lista_z_dataframe_SMA50)
+lista_z_dataframe_SMA14IND = (dane_wlasciwe['SMA14IND']).tolist()
+seria_z_listy_SMA14IND = pd.Series(lista_z_dataframe_SMA14IND)
+lista_z_dataframe_SMA50IND = (dane_wlasciwe['SMA50IND']).tolist()
+seria_z_listy_SMA50IND = pd.Series(lista_z_dataframe_SMA50IND)
+lista_z_dataframe_Bulls = (dane_wlasciwe['Bulls']).tolist()
+seria_z_listy_Bulls = pd.Series(lista_z_dataframe_Bulls)
+lista_z_dataframe_CCI = (dane_wlasciwe['CCI']).tolist()
+seria_z_listy_CCI = pd.Series(lista_z_dataframe_CCI)
+lista_z_dataframe_DM = (dane_wlasciwe['DM']).tolist()
+seria_z_listy_DM = pd.Series(lista_z_dataframe_DM)
+lista_z_dataframe_OSMA = (dane_wlasciwe['OSMA']).tolist()
+seria_z_listy_OSMA = pd.Series(lista_z_dataframe_OSMA)
+lista_z_dataframe_RSI = (dane_wlasciwe['RSI']).tolist()
+seria_z_listy_RSI = pd.Series(lista_z_dataframe_RSI)
+lista_z_dataframe_Stoch = (dane_wlasciwe['Stoch']).tolist()
+seria_z_listy_Stoch = pd.Series(lista_z_dataframe_Stoch)
+
+#Wyliczenie korelacji
+corr_1 = seria_z_lista_1.corr(seria_z_listy_close)
+corr_2 = seria_z_lista_2.corr(seria_z_listy_SMA14)
+corr_3 = seria_z_lista_3.corr(seria_z_listy_SMA50)
+corr_4 = seria_z_lista_4.corr(seria_z_listy_SMA14IND)
+corr_5 = seria_z_lista_5.corr(seria_z_listy_SMA50IND)
+corr_6 = seria_z_lista_6.corr(seria_z_listy_Bulls)
+corr_7 = seria_z_lista_7.corr(seria_z_listy_CCI)
+corr_8 = seria_z_lista_8.corr(seria_z_listy_DM)
+corr_9 = seria_z_lista_9.corr(seria_z_listy_OSMA)
+corr_10 = seria_z_lista_10.corr(seria_z_listy_RSI)
+corr_11 = seria_z_lista_11.corr(seria_z_listy_Stoch)
+
+korelacje = [corr_1,corr_2,corr_3,corr_4,corr_5,corr_6,corr_7,corr_8,corr_9,corr_10,corr_11]
+for i in korelacje: #SPR
+    print(i)
+
+

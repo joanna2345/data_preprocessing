@@ -1,0 +1,334 @@
+import pandas as pd
+import numpy as np
+
+# Wczytanie danych do formatu DataFrame wybierając tylko 2500 obiektów z pliku
+dane_wlasciwe = pd.DataFrame((pd.read_csv('C:\\Users\\joann\\Downloads\\data_preprocessing_file\\data_preprocessing\\data_EUR_USD.csv')).head(2500))
+print(dane_wlasciwe)
+
+# Usunięcie kolumn oznaczonych jako SMA14IND oraz SMA50IND
+dane_wlasciwe.drop('SMA14IND', axis=1, inplace=True)
+dane_wlasciwe.drop('SMA50IND', axis=1, inplace=True)
+print(dane_wlasciwe)
+
+# Obliczenie liczby wystąpień danych pustych
+# Naprawa danych w taki sposób, że pusta wartość zastępowana jest 
+# wartością uśrednioną dwóch sąsiednich elementów
+
+#Zliczam puste wystąpienia danych i wyswietlam ilosc 
+ile_pustych_close = dane_wlasciwe['Close'].isnull().sum()
+print('Liczba pustych wystąpień dla kolumny Close to: ', ile_pustych_close)
+#Zamieniam dataframe na listę
+dataframe_close = dane_wlasciwe['Close']
+lista_z_dataframe_close = dataframe_close.tolist()
+# print(lista_z_dataframe) SPR
+
+#wartość pusta na uśrednioną 
+lista_close_wartosci_puste_usrednione=[]
+pierwszy_element=lista_z_dataframe_close[0] #wartosc
+ostatni_element=lista_z_dataframe_close[2499]
+
+#Dodaję na nową listę elementy z poprzedniej listy, a nan zamieniam na wart.usrednione
+for i in range (len(lista_z_dataframe_close)):
+    liczba_w_liscie=lista_z_dataframe_close[i]
+    #jeśli jest to pierwszy element i nie jest nan, to wpisuję do listy
+    if liczba_w_liscie == pierwszy_element:
+        lista_close_wartosci_puste_usrednione.append(liczba_w_liscie)
+    #jeśli ostatni element i nie jest nan to wpisuję na listę
+    elif liczba_w_liscie == ostatni_element:
+        lista_close_wartosci_puste_usrednione.append(liczba_w_liscie)
+    #jeśli jest to element w liście w przedziale od pierwszego do ostatniego to: 
+    else:
+        #jeśli element jest wartością dodatnią
+        if liczba_w_liscie > 1:
+            lista_close_wartosci_puste_usrednione.append(liczba_w_liscie)
+        #jeśli element jest wartością ujemną
+        elif liczba_w_liscie < 1:
+            lista_close_wartosci_puste_usrednione.append(liczba_w_liscie)
+        elif liczba_w_liscie == 0:
+            lista_close_wartosci_puste_usrednione.append(liczba_w_liscie)
+        #jeśli jest nan
+        else:
+            index_ost_elementu = lista_z_dataframe_close.index(liczba_w_liscie)
+            przed_ost_element = lista_z_dataframe_close[index_ost_elementu-1]
+            drugi_element = lista_z_dataframe_close[1]
+            index_el_poprzedzajacy = lista_z_dataframe_close.index(liczba_w_liscie)
+            index_el_nastepujacy = lista_z_dataframe_close.index(liczba_w_liscie)
+            #jeśli i to pierwszy element wtedy nie mozna zsumowac wartosci spoza przedziału (poprzedniego elementu nie ma)
+            #jeśli i to ostatni element wtedy nie mozna zsumowac wartosci spoza przedziału (kolejnego elementu nie ma)
+            try:
+                element_nastepujacy = lista_z_dataframe_close[index_ost_elementu+1]
+                czy_jest_w_liscie_element_nastepujacy = lista_z_dataframe_close[index_ost_elementu+1] in lista_z_dataframe_close
+                element_poprzedzajacy = lista_z_dataframe_close[index_ost_elementu-1]
+                czy_jest_w_liscie_element_poprzedzajacy = lista_z_dataframe_close[index_ost_elementu-1] in lista_z_dataframe_close
+                
+                if czy_jest_w_liscie_element_nastepujacy == True or czy_jest_w_liscie_element_poprzedzajacy == True:
+                    lista_close_wartosci_puste_usrednione.append((element_poprzedzajacy+element_nastepujacy)/2)
+            except IndexError:
+                lista_close_wartosci_puste_usrednione.append(element_poprzedzajacy or element_nastepujacy)    
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['Close'] = lista_close_wartosci_puste_usrednione
+
+#W przypadku danych pustych w kolumnach SMA14 i SMA50 – naprawa wartości pustych
+
+#Zamieniam dataframe na listę sma14
+dataframe_sma14 = dane_wlasciwe['SMA14']
+lista_z_dataframe_sma14 = dataframe_sma14.tolist()
+lista_sma14_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_sma14)):
+    liczba_w_liscie_sma14=lista_z_dataframe_sma14[i]
+    if liczba_w_liscie_sma14 > 1:
+        lista_sma14_wartosci_puste_naprawione.append(liczba_w_liscie_sma14)
+        #jeśli element jest wartością ujemną
+    elif liczba_w_liscie_sma14 < 1:
+        lista_sma14_wartosci_puste_naprawione.append(liczba_w_liscie_sma14)
+    elif liczba_w_liscie_sma14 == 0:
+        lista_sma14_wartosci_puste_naprawione.append(liczba_w_liscie_sma14)
+        #jeśli jest nan
+    else:
+        lista_sma14_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['SMA14'] = lista_sma14_wartosci_puste_naprawione
+
+#Zamieniam dataframe na listę sma50
+dataframe_sma50 = dane_wlasciwe['SMA50']
+lista_z_dataframe_sma50 = dataframe_sma50.tolist()
+lista_sma50_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_sma50)):
+    liczba_w_liscie_sma50=lista_z_dataframe_sma50[i]
+    if liczba_w_liscie_sma50 > 1:
+        lista_sma50_wartosci_puste_naprawione.append(liczba_w_liscie_sma50)
+        #jeśli element jest wartością ujemną
+    elif liczba_w_liscie_sma50 < 1:
+        lista_sma50_wartosci_puste_naprawione.append(liczba_w_liscie_sma50)
+    elif liczba_w_liscie_sma50 == 0:
+        lista_sma50_wartosci_puste_naprawione.append(liczba_w_liscie_sma50)
+        #jeśli jest nan
+    else:
+        lista_sma50_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['SMA50'] = lista_sma50_wartosci_puste_naprawione
+
+#Dla wszystkich pozostałych atrybutów wypełniam wartości puste zerami;
+
+#Zamieniam dataframe na listę Bulls
+dataframe_bulls = dane_wlasciwe['Bulls']
+lista_z_dataframe_bulls = dataframe_bulls.tolist()
+lista_bulls_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_bulls)):
+    liczba_w_liscie_bulls=lista_z_dataframe_bulls[i]
+    if liczba_w_liscie_bulls > 1:
+        lista_bulls_wartosci_puste_naprawione.append(liczba_w_liscie_bulls)
+        #jeśli element jest wartością ujemną
+    elif liczba_w_liscie_bulls < 1:
+        lista_bulls_wartosci_puste_naprawione.append(liczba_w_liscie_bulls)
+    elif liczba_w_liscie_bulls == 0:
+        lista_bulls_wartosci_puste_naprawione.append(liczba_w_liscie_bulls)
+        #jeśli jest nan
+    else:
+        lista_bulls_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['Bulls'] = lista_bulls_wartosci_puste_naprawione
+
+#Zamieniam dataframe na listę CCI
+dataframe_cci = dane_wlasciwe['CCI']
+lista_z_dataframe_cci = dataframe_cci.tolist()
+lista_cci_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_cci)):
+    liczba_w_liscie_cci=lista_z_dataframe_cci[i]
+    if liczba_w_liscie_cci > 1:
+        lista_cci_wartosci_puste_naprawione.append(liczba_w_liscie_cci)
+        #jeśli element jest wartością ujemną
+    elif liczba_w_liscie_cci < 1:
+        lista_cci_wartosci_puste_naprawione.append(liczba_w_liscie_cci)
+    elif liczba_w_liscie_cci == 0:
+        lista_cci_wartosci_puste_naprawione.append(liczba_w_liscie_cci)
+        #jeśli jest nan
+    else:
+        lista_cci_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['CCI'] = lista_cci_wartosci_puste_naprawione
+
+#Zamieniam dataframe na listę DM
+dataframe_dm = dane_wlasciwe['DM']
+lista_z_dataframe_dm = dataframe_dm.tolist()
+lista_dm_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_dm)):
+    liczba_w_liscie_dm=lista_z_dataframe_dm[i]
+    if liczba_w_liscie_dm > 1:
+        lista_dm_wartosci_puste_naprawione.append(liczba_w_liscie_dm)
+        #jeśli element jest wartością ujemną
+    elif liczba_w_liscie_dm < 1:
+        lista_dm_wartosci_puste_naprawione.append(liczba_w_liscie_dm)
+    elif liczba_w_liscie_dm == 0:
+        lista_dm_wartosci_puste_naprawione.append(liczba_w_liscie_dm)
+        #jeśli jest nan
+    else:
+        lista_dm_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['DM'] = lista_dm_wartosci_puste_naprawione
+
+#Zamieniam dataframe na listę OSMA
+dataframe_osma = dane_wlasciwe['OSMA']
+lista_z_dataframe_osma = dataframe_osma.tolist()
+lista_osma_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_osma)):
+    liczba_w_liscie_osma=lista_z_dataframe_osma[i]
+    if liczba_w_liscie_osma > 1:
+        lista_osma_wartosci_puste_naprawione.append(liczba_w_liscie_osma)
+        #jeśli element jest wartością ujemną
+    elif liczba_w_liscie_osma < 1:
+        lista_osma_wartosci_puste_naprawione.append(liczba_w_liscie_osma)
+    elif liczba_w_liscie_osma == 0:
+        lista_osma_wartosci_puste_naprawione.append(liczba_w_liscie_osma)
+        #jeśli jest nan
+    else:
+        lista_osma_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['OSMA'] = lista_osma_wartosci_puste_naprawione
+
+#Zamieniam dataframe na listę RSI
+dataframe_rsi = dane_wlasciwe['RSI']
+lista_z_dataframe_rsi = dataframe_rsi.tolist()
+lista_rsi_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_rsi)):
+    liczba_w_liscie_rsi=lista_z_dataframe_rsi[i]
+    if liczba_w_liscie_rsi > 1:
+        lista_rsi_wartosci_puste_naprawione.append(liczba_w_liscie_rsi)
+        #jeśli element jest wartością ujemną
+    elif liczba_w_liscie_rsi < 1:
+        lista_rsi_wartosci_puste_naprawione.append(liczba_w_liscie_rsi)
+    elif liczba_w_liscie_rsi == 0:
+        lista_rsi_wartosci_puste_naprawione.append(liczba_w_liscie_rsi)
+        #jeśli jest nan
+    else:
+        lista_rsi_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['RSI'] = lista_rsi_wartosci_puste_naprawione
+
+#Zamieniam dataframe na listę Stoch
+dataframe_stoch = dane_wlasciwe['Stoch']
+lista_z_dataframe_stoch = dataframe_stoch.tolist()
+lista_stoch_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_stoch)):
+    liczba_w_liscie_stoch=lista_z_dataframe_stoch[i]
+    if liczba_w_liscie_stoch > 1:
+        lista_stoch_wartosci_puste_naprawione.append(liczba_w_liscie_stoch)
+        #jeśli element jest wartością ujemną
+    elif liczba_w_liscie_stoch < 1:
+        lista_stoch_wartosci_puste_naprawione.append(liczba_w_liscie_stoch)
+    elif liczba_w_liscie_stoch == 0:
+        lista_stoch_wartosci_puste_naprawione.append(liczba_w_liscie_stoch)
+        #jeśli jest nan
+    else:
+        lista_stoch_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['Stoch'] = lista_stoch_wartosci_puste_naprawione
+
+#Zamieniam dataframe na listę Decision
+dataframe_decision = dane_wlasciwe['Decision']
+lista_z_dataframe_decision = dataframe_decision.tolist()
+lista_decision_wartosci_puste_naprawione=[]
+#Naprawiam wartości puste poprzez wpisanie wartości 0
+for i in range (len(lista_z_dataframe_decision)):
+    liczba_w_liscie_decision=lista_z_dataframe_decision[i]
+    if len(liczba_w_liscie_decision) > 1:
+        lista_decision_wartosci_puste_naprawione.append(liczba_w_liscie_decision)
+        #jeśli element jest wartością ujemną
+    elif len(liczba_w_liscie_decision) < 1:
+        lista_decision_wartosci_puste_naprawione.append(liczba_w_liscie_decision)
+    else:
+        lista_decision_wartosci_puste_naprawione.append(0)
+#wpisuje wartosci z listy do mojego dataframe
+dane_wlasciwe['Decision'] = lista_decision_wartosci_puste_naprawione
+
+#Wyznaczam korelację pomiędzy SMA14 i SMA50;
+
+seria_z_listy_sma50 = pd.Series(lista_z_dataframe_sma50)
+seria_z_listy_sma14 = pd.Series(lista_z_dataframe_sma14)
+corr_sma14_sma50 = seria_z_listy_sma14.corr(seria_z_listy_sma50)
+print(corr_sma14_sma50)
+
+#Wyznaczam korelację pomiędzy Close oraz SMA14 a także pomiędzy
+#Close oraz SMA50. Usuwam kolumnę, dla której wartość korelacji jest
+#większa;
+seria_z_listy_close = pd.Series(lista_z_dataframe_close)
+corr_close_sma50 = seria_z_listy_close.corr(seria_z_listy_sma50)
+corr_close_sma14 = seria_z_listy_close.corr(seria_z_listy_sma14)
+print('co wieksze: sma14 czy sma 50',corr_close_sma14, corr_close_sma50)
+if corr_close_sma50 > corr_close_sma14:
+    dane_wlasciwe.drop('SMA50', axis=1, inplace=True)
+else:
+    dane_wlasciwe.drop('SMA14', axis=1, inplace=True)
+print(dane_wlasciwe)
+
+# Liczba elementów ujemnych dla atrybutu CCI;
+ile_ujemnych_ccl = 0
+for i in range (len(lista_z_dataframe_cci)):
+    liczba_w_liscie=lista_z_dataframe_cci[i]
+    if liczba_w_liscie < 0:
+        ile_ujemnych_ccl +=1
+    else:
+        ...
+print('Liczba elementów ujemnych w atrybucie CCL to: ', ile_ujemnych_ccl)
+
+
+# Informacja o wartości maksymalnej i minialnej dla każdego atrybutu;
+
+wartosc_max_close = dane_wlasciwe['Close'].max()
+wartosc_min_close = dane_wlasciwe['Close'].min()
+wartosc_max_sma50 = dane_wlasciwe['SMA50'].max()
+wartosc_min_sma50 = dane_wlasciwe['SMA50'].min()
+wartosc_max_bulls = dane_wlasciwe['Bulls'].max()
+wartosc_min_bulls = dane_wlasciwe['Bulls'].min()
+wartosc_max_cci = dane_wlasciwe['CCI'].max()
+wartosc_min_cci = dane_wlasciwe['CCI'].min()
+wartosc_max_dm = dane_wlasciwe['DM'].max()
+wartosc_min_dm = dane_wlasciwe['DM'].min()
+wartosc_max_osma = dane_wlasciwe['OSMA'].max()
+wartosc_min_osma = dane_wlasciwe['OSMA'].min()
+wartosc_max_rsi = dane_wlasciwe['RSI'].max()
+wartosc_min_rsi = dane_wlasciwe['RSI'].min()
+wartosc_max_stoch = dane_wlasciwe['Stoch'].max()
+wartosc_min_stoch = dane_wlasciwe['Stoch'].min()
+wartosc_max_decision = dane_wlasciwe['Decision'].max()
+wartosc_min_decision = dane_wlasciwe['Decision'].min()
+print(wartosc_max_decision, wartosc_max_cci, wartosc_min_rsi)
+print(dane_wlasciwe)
+#Normalizację dwóch wybranych atrybutów;
+atrybuty=['DM', 'OSMA']
+#Normalizacja zgodnie ze wzorem
+for atrybut in atrybuty:
+    max = dane_wlasciwe[atrybut].max()
+    min = dane_wlasciwe[atrybut].min()
+    dane_wlasciwe[atrybut] = (dane_wlasciwe[atrybut] - min) / (max - min)
+print(dane_wlasciwe)
+
+#Dyskretyzację dwóch wybranych atrybutów (podział odpowiednio na 2 i 4 kategorie);
+#DM na dwa
+etykiety_nadwa_dm = ['Up', 'Down']
+seria_nadwa_dm = pd.Series(np.array(dane_wlasciwe['DM']))
+wynik_nadwa_dm = pd.cut(seria_nadwa_dm,2,labels=etykiety_nadwa_dm)
+#DM na cztery
+etykiety_nacztery_dm = ['Jeden', 'Dwa', 'Trzy', 'Cztery']
+seria_nacztery_dm = pd.Series(np.array(dane_wlasciwe['DM']))
+wynik_nacztery_dm = pd.cut(seria_nacztery_dm,4,labels=etykiety_nacztery_dm)
+#OSMA na dwa
+etykiety_nadwa_osma = ['Up', 'Down']
+seria_nadwa_osma = pd.Series(np.array(dane_wlasciwe['OSMA']))
+wynik_nadwa_osma = pd.cut(seria_nadwa_osma,2,labels=etykiety_nadwa_osma)
+#OSMA na cztery
+etykiety_nacztery_osma = ['Jeden', 'Dwa', 'Trzy', 'Cztery']
+seria_nacztery_osma = pd.Series(np.array(dane_wlasciwe['OSMA']))
+wynik_nacztery_osma = pd.cut(seria_nacztery_osma,4,labels=etykiety_nacztery_osma)
+
+#Dane po preprocessingu zapisuję do pliku w formacie JSON.
+
+dane_wlasciwe.to_json("data_EUR_USD_preprocessing.json")
